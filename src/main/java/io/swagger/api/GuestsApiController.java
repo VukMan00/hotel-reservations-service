@@ -52,12 +52,7 @@ public class GuestsApiController implements GuestsApi {
     public ResponseEntity<List<PromoCode>> getPromoCodes(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<List<PromoCode>>(objectMapper.readValue("[ {\n  \"promoCodePK\" : {\n    \"jmbg\" : \"jmbg\",\n    \"id\" : 5\n  },\n  \"discount\" : 2,\n  \"used\" : true\n}, {\n  \"promoCodePK\" : {\n    \"jmbg\" : \"jmbg\",\n    \"id\" : 5\n  },\n  \"discount\" : 2,\n  \"used\" : true\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<List<PromoCode>>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            return new ResponseEntity<List<PromoCode>>(guestsService.getPromoCodes(guestJMBG),HttpStatus.OK);
         }
 
         return new ResponseEntity<List<PromoCode>>(HttpStatus.NOT_IMPLEMENTED);
@@ -73,8 +68,12 @@ public class GuestsApiController implements GuestsApi {
     }
 
     public ResponseEntity<Void> savePromoCode(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG,
-                                              @Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody PromoCode body) {
+                                              @Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody PromoCode promoCode) {
         String accept = request.getHeader("Accept");
+        if(accept!=null && accept.contains("application/json")){
+            guestsService.saveGuestPromoCode(guestJMBG,promoCode);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 }
