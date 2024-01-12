@@ -1,5 +1,6 @@
 package io.swagger.service;
 
+import io.swagger.api.NotFoundException;
 import io.swagger.model.Guest;
 import io.swagger.model.PromoCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class GuestService {
                 Constants.GUESTS_URL, requestEntity, Void.class);
     }
 
-    public Guest getGuest(String guestJMBG) {
+    public Guest getGuest(String guestJMBG){
         ResponseEntity<Guest> responseEntity = restTemplate.getForEntity(Constants.GUESTS_URL + "/" + guestJMBG, Guest.class);
         return responseEntity.getBody();
     }

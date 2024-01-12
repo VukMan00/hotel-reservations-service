@@ -39,7 +39,7 @@ public class GuestsApiController implements GuestsApi {
         this.guestsService = guestsService;
     }
 
-    public ResponseEntity<Guest> getGuest(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG) {
+    public ResponseEntity<Guest> getGuest(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG){
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             if (accept != null && accept.contains("application/json")) {
