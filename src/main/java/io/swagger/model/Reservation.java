@@ -2,12 +2,7 @@ package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.model.Guest;
-import io.swagger.model.ReservationPK;
-import io.swagger.model.Room;
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.threeten.bp.LocalDate;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -26,12 +21,6 @@ public class Reservation   {
 
   @JsonProperty("guest")
   private Guest guest = null;
-
-  @JsonProperty("dateFrom")
-  private LocalDate dateFrom = null;
-
-  @JsonProperty("dateTo")
-  private LocalDate dateTo = null;
 
   @JsonProperty("email")
   private String email = null;
@@ -72,7 +61,6 @@ public class Reservation   {
    * @return room
    **/
   @Schema(required = true, description = "")
-      @NotNull
 
     @Valid
     public Room getRoom() {
@@ -93,7 +81,6 @@ public class Reservation   {
    * @return guest
    **/
   @Schema(required = true, description = "")
-      @NotNull
 
     @Valid
     public Guest getGuest() {
@@ -102,48 +89,6 @@ public class Reservation   {
 
   public void setGuest(Guest guest) {
     this.guest = guest;
-  }
-
-  public Reservation dateFrom(LocalDate dateFrom) {
-    this.dateFrom = dateFrom;
-    return this;
-  }
-
-  /**
-   * Get dateFrom
-   * @return dateFrom
-   **/
-  @Schema(required = true, description = "")
-      @NotNull
-
-    @Valid
-    public LocalDate getDateFrom() {
-    return dateFrom;
-  }
-
-  public void setDateFrom(LocalDate dateFrom) {
-    this.dateFrom = dateFrom;
-  }
-
-  public Reservation dateTo(LocalDate dateTo) {
-    this.dateTo = dateTo;
-    return this;
-  }
-
-  /**
-   * Get dateTo
-   * @return dateTo
-   **/
-  @Schema(required = true, description = "")
-      @NotNull
-
-    @Valid
-    public LocalDate getDateTo() {
-    return dateTo;
-  }
-
-  public void setDateTo(LocalDate dateTo) {
-    this.dateTo = dateTo;
   }
 
   public Reservation email(String email) {
@@ -176,7 +121,6 @@ public class Reservation   {
    * @return token
    **/
   @Schema(required = true, description = "")
-      @NotNull
 
     public String getToken() {
     return token;
@@ -196,7 +140,6 @@ public class Reservation   {
    * @return price
    **/
   @Schema(required = true, description = "")
-      @NotNull
 
     public Integer getPrice() {
     return price;
@@ -217,8 +160,6 @@ public class Reservation   {
     }
     Reservation reservation = (Reservation) o;
     return Objects.equals(this.reservationPK, reservation.reservationPK) &&
-        Objects.equals(this.dateFrom, reservation.dateFrom) &&
-        Objects.equals(this.dateTo, reservation.dateTo) &&
         Objects.equals(this.email, reservation.email) &&
         Objects.equals(this.token, reservation.token) &&
         Objects.equals(this.price, reservation.price);
@@ -226,7 +167,7 @@ public class Reservation   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(reservationPK, dateFrom, dateTo, email, token, price);
+    return Objects.hash(reservationPK, email, token, price);
   }
 
   @Override
@@ -235,10 +176,6 @@ public class Reservation   {
     sb.append("class Reservation {\n");
     
     sb.append("    reservationPK: ").append(toIndentedString(reservationPK)).append("\n");
-    sb.append("    room: ").append(toIndentedString(room)).append("\n");
-    sb.append("    guest: ").append(toIndentedString(guest)).append("\n");
-    sb.append("    dateFrom: ").append(toIndentedString(dateFrom)).append("\n");
-    sb.append("    dateTo: ").append(toIndentedString(dateTo)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    token: ").append(toIndentedString(token)).append("\n");
     sb.append("    price: ").append(toIndentedString(price)).append("\n");

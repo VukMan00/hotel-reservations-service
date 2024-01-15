@@ -1,10 +1,11 @@
 package io.swagger.model;
 
+import java.util.Date;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
+
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -21,6 +22,12 @@ public class ReservationPK   {
 
   @JsonProperty("jmbg")
   private String jmbg = null;
+
+  @JsonProperty("dateFrom")
+  private Date dateFrom = null;
+
+  @JsonProperty("dateTo")
+  private Date dateTo = null;
 
   public ReservationPK id(Integer id) {
     this.id = id;
@@ -62,6 +69,47 @@ public class ReservationPK   {
     this.jmbg = jmbg;
   }
 
+  public ReservationPK dateFrom(Date dateFrom) {
+    this.dateFrom = dateFrom;
+    return this;
+  }
+
+  /**
+   * Get dateFrom
+   * @return dateFrom
+   **/
+  @Schema(required = true, description = "")
+  @NotNull
+
+  @Valid
+  public Date getDateFrom() {
+    return dateFrom;
+  }
+
+  public void setDateFrom(Date dateFrom) {
+    this.dateFrom = dateFrom;
+  }
+
+  public ReservationPK dateTo(Date dateTo) {
+    this.dateTo = dateTo;
+    return this;
+  }
+
+  /**
+   * Get dateTo
+   * @return dateTo
+   **/
+  @Schema(required = true, description = "")
+  @NotNull
+
+  @Valid
+  public Date getDateTo() {
+    return dateTo;
+  }
+
+  public void setDateTo(Date dateTo) {
+    this.dateTo = dateTo;
+  }
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -88,6 +136,8 @@ public class ReservationPK   {
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    jmbg: ").append(toIndentedString(jmbg)).append("\n");
+    sb.append("    dateFrom: ").append(toIndentedString(dateFrom)).append("\n");
+    sb.append("    dateTo: ").append(toIndentedString(dateTo)).append("\n");
     sb.append("}");
     return sb.toString();
   }

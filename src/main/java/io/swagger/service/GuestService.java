@@ -1,6 +1,5 @@
 package io.swagger.service;
 
-import io.swagger.api.NotFoundException;
 import io.swagger.model.Guest;
 import io.swagger.model.PromoCode;
 import org.springframework.beans.factory.annotation.Autowired;

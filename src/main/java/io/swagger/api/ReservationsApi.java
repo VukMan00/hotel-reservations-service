@@ -5,6 +5,7 @@
  */
 package io.swagger.api;
 
+import io.swagger.exception.NotFoundException;
 import io.swagger.model.Reservation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -15,22 +16,17 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.bind.annotation.CookieValue;
 
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2024-01-11T08:59:36.048365385Z[GMT]")
 @Validated
@@ -44,10 +40,12 @@ public interface ReservationsApi {
         @ApiResponse(responseCode = "404", description = "Reservation not found"),
         
         @ApiResponse(responseCode = "500", description = "An error occured while processing the request. ") })
-    @RequestMapping(value = "/reservations/rooms/{roomId}/guests/{guestJMBG}",
+    @RequestMapping(value = "/reservations/rooms/{roomId}/guests/{guestJMBG}/dateFrom/{dateFrom}/dateTo/{dateTo}",
         method = RequestMethod.DELETE)
     ResponseEntity<Void> deleteReservation(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("roomId") Integer roomId,
-                                           @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG);
+                                           @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG,
+                                           @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("dateFrom") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateFrom,
+                                           @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("dateTo") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateTo) throws NotFoundException;
 
 
     @Operation(summary = "Returns reservation", description = "Returns details of reservation with given room and guest", security = {
@@ -58,11 +56,13 @@ public interface ReservationsApi {
         @ApiResponse(responseCode = "404", description = "Reservation not found"),
         
         @ApiResponse(responseCode = "500", description = "An error occured while processing the request. ") })
-    @RequestMapping(value = "/reservations/rooms/{roomId}/guests/{guestJMBG}",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
+    @RequestMapping(value = "/reservations/rooms/{roomId}/guests/{guestJMBG}/dateFrom/{dateFrom}/dateTo/{dateTo}",
+            produces = { "application/json" },
+            method = RequestMethod.GET)
     ResponseEntity<Reservation> getReservation(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("roomId") Integer roomId,
-                                               @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG);
+                                               @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG,
+                                               @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("dateFrom") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateFrom,
+                                               @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("dateTo") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateTo) throws NotFoundException;
 
 
     @Operation(summary = "Return Reservation", description = "Returns the reservation of room", security = {
@@ -90,7 +90,7 @@ public interface ReservationsApi {
     @RequestMapping(value = "/reservations/rooms/{roomId}/guests/{guestJMBG}",
         consumes = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<Void> saveRoomReservation(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("roomId") Integer roomId,
+    ResponseEntity<String> saveRoomReservation(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("roomId") Integer roomId,
                                              @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG,
                                              @Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody Reservation body);
 }

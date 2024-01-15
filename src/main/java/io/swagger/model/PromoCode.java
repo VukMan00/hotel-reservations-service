@@ -2,9 +2,6 @@ package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.model.Guest;
-import io.swagger.model.PromoCodePK;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -23,7 +20,7 @@ public class PromoCode   {
   private Integer discount = null;
 
   @JsonProperty("used")
-  private Boolean used = null;
+  private Boolean used = false;
 
   @JsonProperty("guest")
   private Guest guest = null;

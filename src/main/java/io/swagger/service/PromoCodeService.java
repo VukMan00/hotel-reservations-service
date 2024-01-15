@@ -1,7 +1,6 @@
 package io.swagger.service;
 
 import io.swagger.api.resttemplate.Constants;
-import io.swagger.model.Guest;
 import io.swagger.model.PromoCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -41,7 +40,7 @@ public class PromoCodeService {
         promoCode.setDiscount(getRandomDiscount());
         HttpEntity<PromoCode> requestEntity = new HttpEntity<>(promoCode, headers);
         restTemplate.postForEntity(
-                Constants.GUESTS_URL + "/" + guestJMBG, requestEntity, Void.class);
+                Constants.GUESTS_URL + "/" + guestJMBG + "/promoCodes", requestEntity, Void.class);
     }
 
     private Integer getRandomDiscount() {

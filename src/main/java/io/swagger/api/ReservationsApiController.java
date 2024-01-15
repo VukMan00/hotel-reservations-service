@@ -1,5 +1,6 @@
 package io.swagger.api;
 
+import io.swagger.exception.NotFoundException;
 import io.swagger.model.Reservation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.service.ReservationService;
@@ -8,6 +9,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2024-01-11T08:59:36.048365385Z[GMT]")
@@ -39,20 +41,24 @@ public class ReservationsApiController implements ReservationsApi {
     }
 
     public ResponseEntity<Void> deleteReservation(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("roomId") Integer roomId,
-                                                  @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG) {
+                                                  @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG,
+                                                  @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("dateFrom") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateFrom,
+                                                  @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("dateTo") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateTo) throws NotFoundException {
         String accept = request.getHeader("Accept");
         if(accept!=null && accept.contains("application/json")){
-            reservationService.deleteReservation(roomId,guestJMBG);
+            reservationService.deleteReservation(roomId,guestJMBG,dateFrom,dateTo);
             return new ResponseEntity<Void>(HttpStatus.OK);
         }
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<Reservation> getReservation(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("roomId") Integer roomId,
-                                                      @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG) {
+                                                      @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG,
+                                                      @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("dateFrom") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateFrom,
+                                                      @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("dateTo") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateTo) throws NotFoundException {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
-            return new ResponseEntity<Reservation>(reservationService.getReservation(roomId,guestJMBG),HttpStatus.OK);
+            return new ResponseEntity<Reservation>(reservationService.getReservation(roomId,guestJMBG,dateFrom,dateTo),HttpStatus.OK);
         }
         return new ResponseEntity<Reservation>(HttpStatus.NOT_IMPLEMENTED);
     }
@@ -65,13 +71,13 @@ public class ReservationsApiController implements ReservationsApi {
         return new ResponseEntity<List<Reservation>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Void> saveRoomReservation(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("roomId") Integer roomId,
+    public ResponseEntity<String> saveRoomReservation(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("roomId") Integer roomId,
                                                     @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG,
                                                     @Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody Reservation reservation) {
         String accept = request.getHeader("Accept");
         if(accept!=null && accept.contains("application/json")){
-            return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+            return reservationService.saveReservation(roomId,guestJMBG,reservation);
         }
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 }
