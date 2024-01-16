@@ -16,6 +16,9 @@ public class PromoCode   {
   @JsonProperty("promoCodePK")
   private PromoCodePK promoCodePK = null;
 
+  @JsonProperty("code")
+  private String code;
+
   @JsonProperty("discount")
   private Integer discount = null;
 
@@ -48,6 +51,25 @@ public class PromoCode   {
   public PromoCode discount(Integer discount) {
     this.discount = discount;
     return this;
+  }
+  public PromoCode code(String code){
+    this.code = code;
+    return this;
+  }
+
+  /**
+   * Get code
+   * @return code
+   **/
+  @Schema(required = true, description = "")
+  @NotNull(message = "Code can't be null")
+
+  public String getCode() {
+    return code;
+  }
+
+  public void setCode(String code) {
+    this.code = code;
   }
 
   /**

@@ -45,6 +45,8 @@ public class GuestService {
     }
 
     public void saveGuestPromoCode(String guestJMBG, PromoCode promoCode) {
+        Guest guest = getGuest(guestJMBG);
+        promoCode.setCode("code-"+guestJMBG+"-"+guest.getCredentials().getUsername());
         promoCodeService.savePromoCode(guestJMBG,promoCode);
     }
 }

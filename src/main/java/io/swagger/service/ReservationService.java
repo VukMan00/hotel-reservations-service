@@ -79,17 +79,36 @@ public class ReservationService {
             reservation.setToken(generateToken());
             reservation.setPrice(room.getPrice());
 
-            System.out.println(reservation);
             String url = Constants.RESERVATIONS_URL + "/rooms/" + roomId
                     + "/guests/" + guestJMBG;
             HttpEntity<Reservation> requestEntity = new HttpEntity<>(reservation, headers);
             restTemplate.postForEntity(url, requestEntity, Void.class);
 
-            generatePromoCode(guestJMBG);
+            generatePromoCode(guestJMBG,reservation.getEmail());
 
             return new ResponseEntity<>("Reservation is successfully made. Your token for access is: " + reservation.getToken(), HttpStatus.OK);
         }
         return responseEntity;
+    }
+
+    public ResponseEntity<String> updatePriceOfReservation(Integer roomId, String guestJMBG, Date dateFrom, Date dateTo, PromoCode promoCode) {
+        if(!promoCode.isUsed()) {
+            Reservation reservation = getReservation(roomId, guestJMBG, dateFrom, dateTo);
+            reservation.setPrice(calculatePrice(promoCode.getDiscount(), reservation.getPrice()));
+
+            String url = Constants.RESERVATIONS_URL +
+                    "/rooms/" + roomId +
+                    "/guests/" + guestJMBG +
+                    "/dateFrom/" + new SimpleDateFormat("yyyy-MM-dd").format(reservation.getReservationPK().getDateFrom()) +
+                    "/dateTo/" + new SimpleDateFormat("yyyy-MM-dd").format(reservation.getReservationPK().getDateTo());
+            HttpEntity<Reservation> requestEntity = new HttpEntity<>(reservation, headers);
+            restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Void.class);
+
+            promoCodeService.updatePromoCode(guestJMBG, promoCode);
+            return new ResponseEntity<>("PromoCode is used, you got the discount!!!",HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>("PromoCode is used", HttpStatus.NOT_ACCEPTABLE);
+        }
     }
 
     private ResponseEntity<String> checkAvailabilityOfRoom(Room room, Reservation reservation) {
@@ -124,13 +143,19 @@ public class ReservationService {
         return randomUUID.toString();
     }
 
-    private void generatePromoCode(String guestJMBG) {
+    private void generatePromoCode(String guestJMBG, String email) {
         PromoCode promoCode = new PromoCode();
         PromoCodePK promoCodePK = new PromoCodePK();
 
+        promoCode.setCode("code-"+guestJMBG+"-"+email);
         promoCodePK.setJmbg(guestJMBG);
         promoCode.setPromoCodePK(promoCodePK);
         promoCodeService.savePromoCode(guestJMBG,promoCode);
     }
+
+    private Integer calculatePrice(Integer discount, Integer price) {
+        return price - (price*discount/100);
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package io.swagger.api;
 
 import io.swagger.exception.NotFoundException;
+import io.swagger.model.PromoCode;
 import io.swagger.model.Reservation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.service.ReservationService;
@@ -61,6 +62,15 @@ public class ReservationsApiController implements ReservationsApi {
             return new ResponseEntity<Reservation>(reservationService.getReservation(roomId,guestJMBG,dateFrom,dateTo),HttpStatus.OK);
         }
         return new ResponseEntity<Reservation>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+    @Override
+    public ResponseEntity<String> updatePriceOfReservation(Integer roomId, String guestJMBG, Date dateFrom, Date dateTo, PromoCode promoCode) throws NotFoundException {
+        String accept = request.getHeader("Accept");
+        if (accept != null && accept.contains("application/json")) {
+            return reservationService.updatePriceOfReservation(roomId,guestJMBG,dateFrom,dateTo,promoCode);
+        }
+        return new ResponseEntity(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<List<Reservation>> getRoomReservations(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("roomId") Integer roomId) {

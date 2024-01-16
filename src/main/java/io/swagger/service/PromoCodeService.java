@@ -48,4 +48,11 @@ public class PromoCodeService {
         int discountIndex = random.nextInt(discounts.length);
         return discounts[discountIndex];
     }
+
+    public void updatePromoCode(String guestJMBG, PromoCode promoCode) {
+        promoCode.setUsed(true);
+        HttpEntity<PromoCode> requestEntity = new HttpEntity<>(promoCode, headers);
+        restTemplate.postForEntity(
+                Constants.GUESTS_URL + "/" + guestJMBG + "/promoCodes", requestEntity, Void.class);
+    }
 }
