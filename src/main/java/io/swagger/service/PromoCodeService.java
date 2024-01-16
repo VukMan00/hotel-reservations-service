@@ -25,6 +25,14 @@ public class PromoCodeService {
         headers.setContentType(MediaType.APPLICATION_JSON);
     }
 
+    public PromoCode getPromoCode(String guestJMBG,String code){
+        String url = Constants.GUESTS_URL +
+                "/" + guestJMBG +
+                "/promoCodes/" + code;
+        ResponseEntity<PromoCode> responseEntity  = restTemplate.getForEntity(url, PromoCode.class);
+        return responseEntity.getBody();
+    }
+
     public List<PromoCode> getGuestPromoCodes(String guestJMBG) {
         String url = Constants.GUESTS_URL +
                 "/" +

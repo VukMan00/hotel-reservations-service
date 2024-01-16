@@ -77,7 +77,6 @@ public class PromoCode   {
    * @return discount
    **/
   @Schema(required = true, description = "")
-      @NotNull
 
     public Integer getDiscount() {
     return discount;
@@ -97,7 +96,6 @@ public class PromoCode   {
    * @return used
    **/
   @Schema(required = true, description = "")
-      @NotNull
 
     public Boolean isUsed() {
     return used;

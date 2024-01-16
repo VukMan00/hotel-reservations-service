@@ -68,7 +68,6 @@ public class ReservationService {
         ParameterizedTypeReference<List<Reservation>> responseType = new ParameterizedTypeReference<List<Reservation>>() {};
 
         ResponseEntity<List<Reservation>> responseEntity = restTemplate.exchange(url, HttpMethod.GET, null, responseType);
-        System.out.println(responseEntity.getBody());
         return responseEntity.getBody();
     }
 
@@ -92,9 +91,10 @@ public class ReservationService {
     }
 
     public ResponseEntity<String> updatePriceOfReservation(Integer roomId, String guestJMBG, Date dateFrom, Date dateTo, PromoCode promoCode) {
-        if(!promoCode.isUsed()) {
+        PromoCode promoCodeDb = promoCodeService.getPromoCode(guestJMBG,promoCode.getCode());
+        if(!promoCodeDb.isUsed()) {
             Reservation reservation = getReservation(roomId, guestJMBG, dateFrom, dateTo);
-            reservation.setPrice(calculatePrice(promoCode.getDiscount(), reservation.getPrice()));
+            reservation.setPrice(calculatePrice(promoCodeDb.getDiscount(), reservation.getPrice()));
 
             String url = Constants.RESERVATIONS_URL +
                     "/rooms/" + roomId +
@@ -104,7 +104,7 @@ public class ReservationService {
             HttpEntity<Reservation> requestEntity = new HttpEntity<>(reservation, headers);
             restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Void.class);
 
-            promoCodeService.updatePromoCode(guestJMBG, promoCode);
+            promoCodeService.updatePromoCode(guestJMBG, promoCodeDb);
             return new ResponseEntity<>("PromoCode is used, you got the discount!!!",HttpStatus.OK);
         }else{
             return new ResponseEntity<>("PromoCode is used", HttpStatus.NOT_ACCEPTABLE);
