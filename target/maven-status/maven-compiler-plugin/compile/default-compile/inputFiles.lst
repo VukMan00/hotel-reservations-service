@@ -2,7 +2,9 @@ C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microserv
 C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\configuration\CustomInstantDeserializer.java
 C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\configuration\SwaggerUiConfiguration.java
 C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\model\Guest.java
+C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\exception\RestExceptionHandler.java
 C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\model\Credentials.java
+C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\exception\NotFoundException.java
 C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\configuration\HomeController.java
 C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\api\RoomsApiController.java
 C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\model\ReservationPK.java
@@ -13,12 +15,17 @@ C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microserv
 C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\api\GuestsApi.java
 C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\service\GuestService.java
 C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\Swagger2SpringBoot.java
+C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\service\RoomService.java
 C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\api\ApiOriginFilter.java
-C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\api\proxy\ProxyController.java
+C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\exception\ErrorResponse.java
+C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\service\PromoCodeService.java
 C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\api\ReservationsApi.java
+C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\exception\ApiException.java
 C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\configuration\LocalDateConverter.java
+C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\api\resttemplate\RestTemplateConfiguration.java
 C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\configuration\SwaggerDocumentationConfig.java
 C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\api\ApiResponseMessage.java
+C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\api\resttemplate\Constants.java
 C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\model\Room.java
 C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\model\PromoCodePK.java
 C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\api\GuestsApiController.java
@@ -26,3 +33,4 @@ C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microserv
 C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\model\Reservation.java
 C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\api\ReservationsApiController.java
 C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\api\ApiException.java
+C:\Users\vuk.manojlovic\Desktop\MyProjects\FaksPosao\HotelRezervations\Microservices\hotel-reservations-microservice\src\main\java\io\swagger\service\ReservationService.java

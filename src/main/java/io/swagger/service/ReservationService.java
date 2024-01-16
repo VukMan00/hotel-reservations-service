@@ -5,6 +5,7 @@ import io.swagger.model.PromoCode;
 import io.swagger.model.PromoCodePK;
 import io.swagger.model.Reservation;
 import io.swagger.model.Room;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -25,6 +27,7 @@ public class ReservationService {
 
     private final PromoCodeService promoCodeService;
 
+    @Autowired
     public ReservationService(RestTemplate restTemplate, RoomService roomService, PromoCodeService promoCodeService) {
         this.restTemplate = restTemplate;
         this.roomService = roomService;
@@ -32,21 +35,19 @@ public class ReservationService {
         headers.setContentType(MediaType.APPLICATION_JSON);
     }
 
-    public void deleteReservation(Integer roomId, String guestJMBG,Date dateFrom, Date dateTo) {
-        String url = Constants.RESERVATIONS_URL +
-                "/rooms/" + roomId +
-                "/guests/" + guestJMBG +
-                "/dateFrom/" + new SimpleDateFormat("yyyy-MM-dd").format(dateFrom) +
-                "/dateTo/" + new SimpleDateFormat("yyyy-MM-dd").format(dateTo);
-        restTemplate.delete(url);
+    public void deleteReservation(String email,String token) {
+        if(getReservation(email,token)!=null) {
+            String url = Constants.RESERVATIONS_URL +
+                    "/email/" + email +
+                    "/token/" + token;
+            restTemplate.exchange(url,HttpMethod.DELETE,null,Void.class);
+        }
     }
 
-    public Reservation getReservation(Integer roomId, String guestJMBG, Date dateFrom, Date dateTo) {
+    public Reservation getReservation(String email, String token) {
         String url = Constants.RESERVATIONS_URL +
-                "/rooms/" + roomId +
-                "/guests/" + guestJMBG +
-                "/dateFrom/" + new SimpleDateFormat("yyyy-MM-dd").format(dateFrom) +
-                "/dateTo/" + new SimpleDateFormat("yyyy-MM-dd").format(dateTo);
+                "/email/" + email +
+                "/token/" + token;
         ResponseEntity<Reservation> responseEntity = restTemplate.getForEntity(url,Reservation.class);
         return responseEntity.getBody();
     }
@@ -71,40 +72,37 @@ public class ReservationService {
         return responseEntity.getBody();
     }
 
-    public ResponseEntity<String> saveReservation(Integer roomId, String guestJMBG, Reservation reservation) {
-        Room room = roomService.getRoom(roomId);
+    public ResponseEntity<String> saveReservation(Reservation reservation) {
+        Room room = roomService.getRoom(reservation.getReservationPK().getId());
         ResponseEntity<String> responseEntity = checkAvailabilityOfRoom(room,reservation);
         if(responseEntity.getStatusCode() == HttpStatus.OK){
             reservation.setToken(generateToken());
             reservation.setPrice(room.getPrice());
 
-            String url = Constants.RESERVATIONS_URL + "/rooms/" + roomId
-                    + "/guests/" + guestJMBG;
             HttpEntity<Reservation> requestEntity = new HttpEntity<>(reservation, headers);
-            restTemplate.postForEntity(url, requestEntity, Void.class);
+            restTemplate.postForEntity(Constants.RESERVATIONS_URL, requestEntity, Reservation.class);
 
-            generatePromoCode(guestJMBG,reservation.getEmail());
+            generatePromoCode(reservation.getReservationPK().getJmbg(),reservation.getEmail());
 
-            return new ResponseEntity<>("Reservation is successfully made. Your token for access is: " + reservation.getToken(), HttpStatus.OK);
+            return new ResponseEntity<>("Reservation is successfully made. Your token for access is: " + reservation.getToken() +
+                                        " and email is: " + reservation.getEmail(), HttpStatus.OK);
         }
         return responseEntity;
     }
 
-    public ResponseEntity<String> updatePriceOfReservation(Integer roomId, String guestJMBG, Date dateFrom, Date dateTo, PromoCode promoCode) {
-        PromoCode promoCodeDb = promoCodeService.getPromoCode(guestJMBG,promoCode.getCode());
+    public ResponseEntity<String> updatePriceOfReservation(String email, String token, PromoCode promoCode) {
+        PromoCode promoCodeDb = promoCodeService.getPromoCode(promoCode);
         if(!promoCodeDb.isUsed()) {
-            Reservation reservation = getReservation(roomId, guestJMBG, dateFrom, dateTo);
+            Reservation reservation = getReservation(email,token);
             reservation.setPrice(calculatePrice(promoCodeDb.getDiscount(), reservation.getPrice()));
 
             String url = Constants.RESERVATIONS_URL +
-                    "/rooms/" + roomId +
-                    "/guests/" + guestJMBG +
-                    "/dateFrom/" + new SimpleDateFormat("yyyy-MM-dd").format(reservation.getReservationPK().getDateFrom()) +
-                    "/dateTo/" + new SimpleDateFormat("yyyy-MM-dd").format(reservation.getReservationPK().getDateTo());
+                    "/email/" + email +
+                    "/token/" + token;
             HttpEntity<Reservation> requestEntity = new HttpEntity<>(reservation, headers);
             restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Void.class);
 
-            promoCodeService.updatePromoCode(guestJMBG, promoCodeDb);
+            promoCodeService.updatePromoCode(promoCodeDb);
             return new ResponseEntity<>("PromoCode is used, you got the discount!!!",HttpStatus.OK);
         }else{
             return new ResponseEntity<>("PromoCode is used", HttpStatus.NOT_ACCEPTABLE);
@@ -144,12 +142,15 @@ public class ReservationService {
     }
 
     private void generatePromoCode(String guestJMBG, String email) {
+        Random random = new Random();
+        int randomNumber = random.nextInt(20*12231144);
+
         PromoCode promoCode = new PromoCode();
         PromoCodePK promoCodePK = new PromoCodePK();
-
-        promoCode.setCode("code-"+guestJMBG+"-"+email);
+        promoCode.setCode("code-"+guestJMBG+"-"+email+"-" + randomNumber);
         promoCodePK.setJmbg(guestJMBG);
         promoCode.setPromoCodePK(promoCodePK);
+
         promoCodeService.savePromoCode(guestJMBG,promoCode);
     }
 

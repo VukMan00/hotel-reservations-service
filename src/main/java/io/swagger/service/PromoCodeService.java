@@ -25,10 +25,10 @@ public class PromoCodeService {
         headers.setContentType(MediaType.APPLICATION_JSON);
     }
 
-    public PromoCode getPromoCode(String guestJMBG,String code){
+    public PromoCode getPromoCode(PromoCode promoCode){
         String url = Constants.GUESTS_URL +
-                "/" + guestJMBG +
-                "/promoCodes/" + code;
+                "/" + promoCode.getPromoCodePK().getJmbg() +
+                "/promoCodes/" + promoCode.getCode();
         ResponseEntity<PromoCode> responseEntity  = restTemplate.getForEntity(url, PromoCode.class);
         return responseEntity.getBody();
     }
@@ -57,10 +57,10 @@ public class PromoCodeService {
         return discounts[discountIndex];
     }
 
-    public void updatePromoCode(String guestJMBG, PromoCode promoCode) {
+    public void updatePromoCode(PromoCode promoCode) {
         promoCode.setUsed(true);
         HttpEntity<PromoCode> requestEntity = new HttpEntity<>(promoCode, headers);
         restTemplate.postForEntity(
-                Constants.GUESTS_URL + "/" + guestJMBG + "/promoCodes", requestEntity, Void.class);
+                Constants.GUESTS_URL + "/" + promoCode.getPromoCodePK().getJmbg() + "/promoCodes", requestEntity, Void.class);
     }
 }

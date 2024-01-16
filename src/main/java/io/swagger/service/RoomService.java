@@ -2,6 +2,7 @@ package io.swagger.service;
 
 import io.swagger.api.resttemplate.Constants;
 import io.swagger.model.Room;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ public class RoomService {
 
     private final RestTemplate restTemplate;
 
+    @Autowired
     public RoomService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
