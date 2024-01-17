@@ -51,5 +51,18 @@ public interface RoomsApi {
         method = RequestMethod.GET)
     ResponseEntity<List<Room>> getRooms();
 
+    @Operation(summary = "Return the picture of room", description = "Show the picture of room", tags={ "Room" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Fetch picture of room", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Room.class)))),
+
+            @ApiResponse(responseCode = "404", description = "Room not found"),
+
+            @ApiResponse(responseCode = "500", description = "An error occured while processing the request. ") })
+    @RequestMapping(value = "/rooms/{roomId}/showPicture",
+            produces = { "application/json" },
+            method = RequestMethod.GET)
+    ResponseEntity<byte[]> getRoomPicture(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("roomId") Integer roomId);
+
+
 }
 

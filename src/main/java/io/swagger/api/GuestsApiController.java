@@ -38,6 +38,7 @@ public class GuestsApiController implements GuestsApi {
         this.guestsService = guestsService;
     }
 
+    @Override
     public ResponseEntity<Guest> getGuest(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG){
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
@@ -48,6 +49,7 @@ public class GuestsApiController implements GuestsApi {
         return new ResponseEntity<Guest>(HttpStatus.NOT_IMPLEMENTED);
     }
 
+    @Override
     public ResponseEntity<List<PromoCode>> getPromoCodes(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
@@ -57,6 +59,7 @@ public class GuestsApiController implements GuestsApi {
         return new ResponseEntity<List<PromoCode>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
+    @Override
     public ResponseEntity<Void> registrationGuest(@Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody Guest guest) {
         String accept = request.getHeader("Accept");
         if(accept != null && accept.contains("application/json")){
@@ -66,6 +69,7 @@ public class GuestsApiController implements GuestsApi {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
+    @Override
     public ResponseEntity<Void> savePromoCode(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG,
                                               @Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody PromoCode promoCode) {
         String accept = request.getHeader("Accept");

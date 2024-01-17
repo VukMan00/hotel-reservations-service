@@ -35,6 +35,7 @@ public class RoomsApiController implements RoomsApi {
         this.roomService = roomService;
     }
 
+    @Override
     public ResponseEntity<Room> getRoom(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("roomId") Integer roomId) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
@@ -44,6 +45,7 @@ public class RoomsApiController implements RoomsApi {
         return new ResponseEntity<Room>(HttpStatus.NOT_IMPLEMENTED);
     }
 
+    @Override
     public ResponseEntity<List<Room>> getRooms() {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
@@ -53,4 +55,12 @@ public class RoomsApiController implements RoomsApi {
         return new ResponseEntity<List<Room>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
+    @Override
+    public ResponseEntity<byte[]> getRoomPicture(Integer roomId) {
+        String accept = request.getHeader("Accept");
+        if (accept != null && accept.contains("application/json")) {
+            return roomService.getRoomPicture(roomId);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
 }

@@ -34,7 +34,7 @@ public class Room   {
   private Integer price = null;
 
   @JsonProperty("picture")
-  private String picture = null;
+  private byte[] picture = null;
 
   @JsonProperty("reservations")
   @Valid
@@ -139,7 +139,7 @@ public class Room   {
     this.price = price;
   }
 
-  public Room picture(String picture) {
+  public Room picture(byte[] picture) {
     this.picture = picture;
     return this;
   }
@@ -149,12 +149,13 @@ public class Room   {
    * @return picture
    **/
   @Schema(description = "")
-  
-    public String getPicture() {
+  @NotNull
+
+    public byte[] getPicture() {
     return picture;
   }
 
-  public void setPicture(String picture) {
+  public void setPicture(byte[] picture) {
     this.picture = picture;
   }
 
@@ -199,13 +200,12 @@ public class Room   {
         Objects.equals(this.capacity, room.capacity) &&
         Objects.equals(this.name, room.name) &&
         Objects.equals(this.description, room.description) &&
-        Objects.equals(this.price, room.price) &&
-        Objects.equals(this.picture, room.picture);
+        Objects.equals(this.price, room.price);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, capacity, name, description, price, picture);
+    return Objects.hash(id, capacity, name, description, price);
   }
 
   @Override
