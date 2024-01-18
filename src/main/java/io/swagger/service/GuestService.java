@@ -18,7 +18,6 @@ public class GuestService {
 
     private final RestTemplate restTemplate;
     private final HttpHeaders headers = new HttpHeaders();
-
     private final PromoCodeService promoCodeService;
 
     @Autowired
