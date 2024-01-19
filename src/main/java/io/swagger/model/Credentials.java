@@ -13,8 +13,6 @@ import javax.validation.constraints.*;
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2024-01-11T08:59:36.048365385Z[GMT]")
-
-
 public class Credentials   {
   @JsonProperty("username")
   private String username = null;
