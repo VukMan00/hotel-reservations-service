@@ -1,0 +1,10 @@
+version: 1.0
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: "arn:aws:ecs:us-east-1:183686979203:task-definition/hotel-reservations-service:1"
+        LoadBalancerInfo:
+          ContainerName: "hotel-reservations-service"
+          ContainerPort: "8200"
+        PlatformVersion: "LATEST"
