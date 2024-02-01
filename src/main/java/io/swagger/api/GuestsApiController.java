@@ -52,6 +52,27 @@ public class GuestsApiController implements GuestsApi {
     }
 
     @Override
+    public ResponseEntity<Guest> getGuestFromUsername(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("username") String username){
+        String accept = request.getHeader("Accept");
+        if (accept != null && accept.contains("application/json")) {
+            if (accept != null && accept.contains("application/json")) {
+                return new ResponseEntity<Guest>(guestsService.getGuestFromUsername(username),HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<Guest>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteGuest(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG) {
+        String accept = request.getHeader("Accept");
+        if(accept!=null && accept.contains("application/json")){
+            guestsService.delete(guestJMBG);
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        }
+        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+    @Override
     public ResponseEntity<List<PromoCode>> getPromoCodes(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {

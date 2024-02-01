@@ -31,6 +31,9 @@ public class Guest   {
   @JsonProperty("dateOfBirth")
   private Date dateOfBirth = null;
 
+  @JsonProperty("username")
+  private String username;
+
   @JsonProperty("reservations")
   @Valid
   private List<Reservation> reservations = null;
@@ -38,9 +41,6 @@ public class Guest   {
   @JsonProperty("promoCodes")
   @Valid
   private List<PromoCode> promoCodes = null;
-
-  @JsonProperty("credentials")
-  private Credentials credentials = null;
 
   public Guest jmbg(String jmbg) {
     this.jmbg = jmbg;
@@ -123,6 +123,27 @@ public class Guest   {
     this.dateOfBirth = dateOfBirth;
   }
 
+  public Guest username(String username) {
+    this.username = username;
+    return this;
+  }
+
+  /**
+   * Get username
+   * @return username
+   **/
+  @Schema(required = true, description = "")
+  @NotNull
+
+  @Valid
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
   public Guest reservations(List<Reservation> reservations) {
     this.reservations = reservations;
     return this;
@@ -176,28 +197,6 @@ public class Guest   {
   public void setPromoCodes(List<PromoCode> promoCodes) {
     this.promoCodes = promoCodes;
   }
-
-  public Guest credentials(Credentials credentials) {
-    this.credentials = credentials;
-    return this;
-  }
-
-  /**
-   * Get credentials
-   * @return credentials
-   **/
-  @Schema(required = true, description = "")
-      @NotNull
-
-    @Valid
-    public Credentials getCredentials() {
-    return credentials;
-  }
-
-  public void setCredentials(Credentials credentials) {
-    this.credentials = credentials;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {

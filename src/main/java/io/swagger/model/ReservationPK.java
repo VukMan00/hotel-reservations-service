@@ -2,6 +2,8 @@ package io.swagger.model;
 
 import java.util.Date;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
@@ -24,9 +26,11 @@ public class ReservationPK   {
   private String jmbg = null;
 
   @JsonProperty("dateFrom")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private Date dateFrom = null;
 
   @JsonProperty("dateTo")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private Date dateTo = null;
 
   public ReservationPK id(Integer id) {

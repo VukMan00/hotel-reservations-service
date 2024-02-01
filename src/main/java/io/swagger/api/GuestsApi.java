@@ -35,7 +35,7 @@ public interface GuestsApi {
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "Fetch Guest details", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Guest.class))),
         
-        @ApiResponse(responseCode = "404", description = "One of the objects not found, Hotel or Guest"),
+        @ApiResponse(responseCode = "404", description = "Guest not found"),
         
         @ApiResponse(responseCode = "500", description = "An error occured while processing the request. ") })
     @RequestMapping(value = "/guests/{guestJMBG}",
@@ -43,6 +43,31 @@ public interface GuestsApi {
         method = RequestMethod.GET)
     ResponseEntity<Guest> getGuest(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG);
 
+    @Operation(summary = "Return Guest details", description = "Return the Guest details", security = {
+            @SecurityRequirement(name = "BasicAuth")    }, tags={ "Guest" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Fetch Guest details", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Guest.class))),
+
+            @ApiResponse(responseCode = "404", description = "Guest not found"),
+
+            @ApiResponse(responseCode = "500", description = "An error occured while processing the request. ") })
+    @RequestMapping(value = "/guests/username/{username}",
+            produces = { "application/json" },
+            method = RequestMethod.GET)
+    ResponseEntity<Guest> getGuestFromUsername(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("username") String username);
+
+    @Operation(summary = "Delete Guest", description = "Delete Guest details", security = {
+            @SecurityRequirement(name = "BasicAuth")    }, tags={ "Guest" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Guest deleted", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Guest.class))),
+
+            @ApiResponse(responseCode = "404", description = "Guest doesn't exist"),
+
+            @ApiResponse(responseCode = "500", description = "An error occured while processing the request. ") })
+    @RequestMapping(value = "/guests/{guestJMBG}",
+            produces = { "application/json" },
+            method = RequestMethod.DELETE)
+    ResponseEntity<Void> deleteGuest(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG);
 
     @Operation(summary = "Return Promo Codes", description = "Return Promo Codes of Guest", security = {
         @SecurityRequirement(name = "BasicAuth")    }, tags={ "Guest" })

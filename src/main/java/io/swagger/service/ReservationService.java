@@ -84,8 +84,7 @@ public class ReservationService {
 
             generatePromoCode(reservation.getReservationPK().getJmbg(),reservation.getEmail());
 
-            return new ResponseEntity<>("Reservation is successfully made. Your token for access is: " + reservation.getToken() +
-                                        " and email is: " + reservation.getEmail(), HttpStatus.OK);
+            return new ResponseEntity<>(reservation.getEmail()+","+reservation.getToken(),HttpStatus.OK);
         }
         return responseEntity;
     }
