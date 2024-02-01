@@ -113,6 +113,7 @@ public class ReservationService {
         List<Reservation> roomReservationsOfPeriod = getRoomReservationsOfPeriod(roomId,reservation);
         if(roomReservationsOfPeriod.isEmpty()){
             if(dateValidationForRoomReservation(roomId,reservation)) {
+                System.out.println("Successfull");
                 return new ResponseEntity<>("Room is available for reservation", HttpStatus.OK);
             }
             return new ResponseEntity<>("Date for your reservation is not available", HttpStatus.NOT_ACCEPTABLE);
